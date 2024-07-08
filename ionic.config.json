@@ -1,0 +1,7 @@
+{
+  "name": "ubbaweb",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
