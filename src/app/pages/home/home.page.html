@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="ion-justify-content-around">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      <!-- <ion-avatar size="small">
+        <img src="assets/images/lebron-james.jpg" height="40" width="50">
+      </ion-avatar> -->
+    </ion-buttons>
+    
+    <ion-title >
+    <!-- class="ion-text-center"> -->
+        <img src="assets/images/ubba-logo-white-v3.png" height="40" width="40">
+    </ion-title>
+    <ion-button slot="end" shape="round" color="primary-contrast" [routerLink]="'/pets/qrcode'">
+      <ion-icon slot="icon-only" size="default" name="qr-code-outline" color="dark"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tab 1</ion-title>
+    </ion-toolbar>
+  </ion-header> -->
+
+  <!-- <app-explore-container name="Tab 1 page"></app-explore-container> -->
+  <app-pet-list
+    [petList]="currentUserPetList"
+    (loadMorePetEmitter)="getNextPageEvent($event)"
+    [hasNextPage]="hasNextPage"
+  ></app-pet-list>
+</ion-content>

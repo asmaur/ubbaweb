@@ -1,0 +1,83 @@
+<ion-header [translucent]="true">
+  <ion-toolbar [color]="isLost ? 'danger' : 'none'">
+    <ion-buttons slot="start">
+      <!-- <ion-menu-button></ion-menu-button> -->
+      <ion-back-button [defaultHref]="appRoutes.tabnav.entry+'/'+appRoutes.tabnav.home"></ion-back-button>
+    </ion-buttons>
+    @if (pet) {
+      <ion-title>{{pet.name}}</ion-title>
+      <!-- <ion-button slot="end" color="dark">
+        edit
+      </ion-button> -->
+    }@else {
+      <ion-title>Not Found</ion-title>
+    }
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="false" class="padding" style="margin-top: 3rem;">
+  <ion-segment [value]="seletedTab" (ionChange)="onIonChange($event)">
+    <ion-segment-button value="pet">
+      <ion-label>Pet</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="medical">
+      <ion-label>Medical</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="info">
+      <ion-label>More</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+
+  <ion-grid>
+    <ion-row>
+      @if (pet) {
+        <ion-col size="12" size-md="6" offset-md="3">
+          @switch (seletedTab) {
+            @case ("pet") {
+              <app-pet-detail-card [pet]="pet"></app-pet-detail-card>
+              <app-tutor-card [tutor]="pet.tutor!" [contacts]="tutorContacts"></app-tutor-card>
+            }
+            @case ("medical") {
+              @if(pet.veterinarian) {
+                <app-vet-card [vet]="pet.veterinarian!"></app-vet-card>
+              }
+
+              <ion-accordion-group expand="inset">
+                <ion-accordion value="first">
+                  <ion-item slot="header" color="warning">
+                    <ion-label>Nota:</ion-label>
+                  </ion-item>
+                  <div class="ion-padding" slot="content">
+                    <p>
+                      {{pet.observation}}
+                    </p>
+                  </div>
+                </ion-accordion>    
+              </ion-accordion-group>
+
+            }
+            @case ("info") {
+              @if(otherContacts.length > 0){
+                <app-other-contact [contacts]="otherContacts"></app-other-contact>
+              }
+              
+            }
+          }
+          <!-- <app-pet-detail-card [pet]="pet"></app-pet-detail-card> -->
+
+          <!-- <app-tutor-card [tutor]="pet.tutor!" [contacts]="tutorContacts"></app-tutor-card> -->
+
+          <!-- @if(otherContacts.length > 0){
+            <app-other-contact [contacts]="otherContacts"></app-other-contact>
+          }
+          @if(pet.vet) {
+            <app-vet-card [vet]="pet.vet!"></app-vet-card>
+          } -->
+
+        </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

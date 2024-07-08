@@ -1,0 +1,22 @@
+
+ion-avatar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    --border-radius: 50%;
+}
+ion-menu-button {
+    // display: none !important;
+}
+
+.active-item {
+    border-left: 8px solid var(--ion-color-primary);
+}
+
+// @media (min-width: 1024px) {
+//     ion-tab-bar{
+//         visibility: hidden;
+//     }
+// }

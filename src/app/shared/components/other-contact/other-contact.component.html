@@ -1,0 +1,13 @@
+<ion-card class="tutor-card">
+  <ion-card-header>
+    Outros contatos
+  </ion-card-header>
+
+  <ion-card-content>
+    @for (contact of contacts; track $index) {
+      <app-contact-card [contact]="contact" [showName]="true"></app-contact-card>
+    }
+
+  </ion-card-content> 
+  
+</ion-card>

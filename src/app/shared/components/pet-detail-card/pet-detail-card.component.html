@@ -1,0 +1,52 @@
+<ion-card>
+  <img alt="Silhouette of mountains" src="/assets/images/lebron-james.jpg" />
+  <ion-card-header>
+    <ion-card-title>
+      <small>Nome: </small>
+      {{pet.name}}
+    </ion-card-title>
+    
+    <!-- <ion-card-subtitle>Nome de usuário: Saga</ion-card-subtitle> -->
+    <ion-card-subtitle>Apelido: {{pet.nickname}}</ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+
+    <!-- Dados do pet -->
+
+    <ion-list>
+      <!-- <ion-item>
+        <p>Here's a small text description for the card content. Nothing more, nothing less.</p>
+      </ion-item> -->
+      <ion-item>
+        <h4>Idade:</h4>
+        <ion-badge slot="end">{{pet.birth_date! | age}}</ion-badge>
+      </ion-item>
+      <ion-item>
+        <ion-toggle [checked]="pet.castration" [disabled]="true">Castrado:</ion-toggle><br />
+      </ion-item>
+      <ion-item>
+        <h4>Genre:</h4>
+        <ion-badge slot="end">{{pet.genre | uppercase }}</ion-badge>
+      </ion-item>
+    </ion-list>
+
+    <ion-accordion-group expand="inset">
+      <ion-accordion value="first">
+        <ion-item slot="header" color="warning">
+          <ion-label>Nota:</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <p>
+            {{pet.observation}}
+          </p>
+        </div>
+      </ion-accordion>
+      
+    </ion-accordion-group>
+  </ion-card-content>
+
+  <ion-button fill="clear">Editar</ion-button>
+  <!-- <ion-button fill="clear">Action 2</ion-button> -->
+
+</ion-card>

@@ -1,0 +1,238 @@
+<!-- <form id="contact-form" (ngSubmit)="onSubmit()"> -->
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button (click)="cancel()">
+          <ion-icon name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>Contact</ion-title>
+      <ion-buttons slot="end">
+        <ion-button type="submit" form="contact-form" [strong]="true">
+          <ion-label>Save</ion-label>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="8" offset-md="2">
+
+        <form 
+          [formGroup]="contactForm!"
+          id="contact-form"
+          (ngSubmit)="onSubmit()"
+          novalidate
+        >
+                
+          <ion-item>
+            <ion-toggle
+              formControlName="mine"              
+              [enableOnOffLabels]="true">Is this contact Yours?</ion-toggle>
+          </ion-item>
+  
+          <ion-item>
+            <ion-input
+              label="Enter your name"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Your name"
+              formControlName="name"
+            ></ion-input>
+          </ion-item>
+  
+          <ion-item>
+            <ion-input
+              label="Enter your email"
+              labelPlacement="stacked"
+              type="email"
+              placeholder="Your email"
+              formControlName="email"
+            ></ion-input>
+          </ion-item>
+
+          <div style="padding: 0rem; margin: 1rem;">
+            <ion-label>Select your country</ion-label>
+            <lib-country-list 
+              selectedCountryCode="br"
+              [preferredCountryCodes]="preferredCountryCodes"
+              (onCountryChange)="onCountryChange($event)"
+            ></lib-country-list>
+          </div>
+        
+          <ion-item>            
+            <ion-input
+              label="Phone number"
+              labelPlacement="stacked"
+              type="tel"
+              placeholder="(DDD) 9999-9999"
+              formControlName="phone"
+              [maskito]="brPhoneMask"
+              [maskitoElement]="maskPredicate"
+            ></ion-input> 
+            
+          </ion-item>
+  
+          <ion-item>
+            <ion-toggle              
+              formControlName="social"
+              [enableOnOffLabels]="true">Is this a Whatsapp number?</ion-toggle> 
+          </ion-item>  
+        
+          <ion-item>
+            <ion-input
+              label="Enter your instagram username"
+              labelPlacement="stacked"
+              type="url"
+              placeholder="Your instagram username"
+              formControlName="instagram"            
+            ></ion-input>
+          </ion-item>
+  
+          <!-- <ion-item>
+            <ion-input
+              label="Enter your name"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Your name"            
+            ></ion-input>
+          </ion-item> -->
+  
+          <ion-item>
+            <ion-input
+              label="Enter your facebook username"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Your facebook username"
+              formControlName="facebook"            
+            ></ion-input>
+          </ion-item>
+  
+          <ion-item>
+            <ion-input
+              label="Enter your tiktok username"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Your tiktok username"
+              formControlName="tiktok"            
+            ></ion-input>
+          </ion-item> 
+
+          
+          
+        </form>
+
+      </ion-col>
+
+  <footer class="ion-text-center">
+    <ion-button (click)="resetForm()">Reset</ion-button>
+  </footer>
+
+  </ion-row>
+  </ion-grid>
+
+</ion-content>
+
+<!-- </form> -->
+
+
+<!-- <ion-modal  (willDismiss)="onWillDismiss($event)">
+  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+  <ng-template>
+    
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="cancel()">Cancel</ion-button>
+        </ion-buttons>
+        <ion-title>Welcome</ion-title>
+        <ion-buttons slot="end">
+          <ion-button buttonType="submit" [strong]="true">Save</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      
+      <ion-item>
+        <ion-toggle checked="mine" [enableOnOffLabels]="true">Is this contact Yours?</ion-toggle>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Enter your name"
+          labelPlacement="stacked"
+          type="text"
+          placeholder="Your name"
+          formControlName="name"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Enter your email"
+          labelPlacement="stacked"
+          type="email"
+          placeholder="Your name"
+          
+        ></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-input
+          label="Phone number"
+          labelPlacement="stacked"
+          type="text"
+          placeholder="Your name"
+          
+        ></ion-input> 
+      </ion-item>
+
+      <ion-item>
+        <ion-toggle [enableOnOffLabels]="true">Is this a Whatsapp number?</ion-toggle> 
+      </ion-item>  
+      
+      <ion-item>
+        <ion-input
+          label="Enter your instagram"
+          labelPlacement="stacked"
+          type="rul"
+          placeholder="Your instagram"            
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Enter your name"
+          labelPlacement="stacked"
+          type="text"
+          placeholder="Your name"            
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Enter your facebook"
+          labelPlacement="stacked"
+          type="text"
+          placeholder="Your facebook"            
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Enter your tiktok"
+          labelPlacement="stacked"
+          type="text"
+          placeholder="Your tiktok"            
+        ></ion-input>
+      </ion-item>      
+    </ion-content>
+  
+  </ng-template>
+  </form>
+</ion-modal> -->

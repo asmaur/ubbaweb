@@ -1,0 +1,71 @@
+<ion-list> 
+  @if(showName){
+    <ion-item lines="none">
+      {{contact.name}}
+    </ion-item>
+  }
+  <ion-item>
+      <!-- <ion-button class="ion-text-center" slot="start" color="primary" shape="round" style="margin-bottom: -1rem;">
+        <ion-icon slot="end" name="add"></ion-icon>
+      </ion-button> -->
+      <!-- <ion-button shape="round" fill="clear" style="margin-bottom: -1rem;">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button> -->
+
+    <div class="tutor-detail" style="display: block; margin: auto;">
+      <!-- <p>{{speaker?.about}} Say hello on social media!</p> -->
+      <hr>  
+      <!-- <ion-chip color="twitter" href="google.com" class="ion-text-center">
+        <ion-icon slot="icon-only" name="logo-twitter"></ion-icon>
+        <ion-label>Twitter</ion-label>
+      </ion-chip> -->
+      @if(contact.phone && contact.social){
+        <ion-button size="small" color="success" [href]="'https://api.whatsapp.com/send?phone=+55' + contact.phone +'&text=Olá, encontrei seu pet. Quero ajudar ele a voltar para casa!'">
+          <ion-icon slot="icon-only" name="logo-whatsapp"></ion-icon>
+        </ion-button>
+      }
+
+      @if(contact.instagram){
+        <ion-button size="small" color="instagram" [href]="contact.instagram">
+          <ion-icon slot="icon-only" name="logo-instagram"></ion-icon>
+        </ion-button>
+      }
+
+      @if(contact.twitter){
+        <ion-button size="small" color="twitter" [href]="contact.twitter">
+          <ion-icon slot="icon-only" name="logo-twitter"></ion-icon>
+        </ion-button>
+      }
+
+      @if(contact.email){
+        <ion-button size="small" color="dark"  (click)="openMailTo(contact.email)">
+          <ion-icon slot="icon-only" name="mail-outline"></ion-icon>
+        </ion-button>
+      }
+
+      <!-- <ion-chip color="success" button >
+        <ion-icon name="logo-whatsapp"></ion-icon>
+        <ion-label>WhatsApp</ion-label>
+      </ion-chip> -->
+
+      <!-- <ion-chip color="instagram" >
+      button (click)="openExternalUrl('https://instagram.com/ionicframework')">
+        <ion-icon name="logo-instagram"></ion-icon>
+        <ion-label>Instagram</ion-label>
+      </ion-chip> -->
+
+      <!-- <ion-chip color="dark" >
+        button (click)="openExternalUrl('https://instagram.com/ionicframework')">
+          <ion-icon name="mail-outline"></ion-icon>
+          <ion-label>Email</ion-label>
+      </ion-chip> -->
+
+    </div>
+
+    <ion-button shape="round" fill="clear" style="margin-bottom: -1rem;">
+      <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+    </ion-button>
+
+
+  </ion-item>
+</ion-list>

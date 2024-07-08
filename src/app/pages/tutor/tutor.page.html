@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>tutor</ion-title>
+    <ion-back-button 
+      slot="start" 
+      [defaultHref]="appRoutes.tabnav.entry+'/'+appRoutes.tabnav.home"
+    ></ion-back-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">tutor</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button>
+          Add
+        </ion-button>
+      </ion-col>
+
+
+      <ion-list>
+        <ion-list-header>
+
+        </ion-list-header>
+        <ion-item></ion-item>
+      </ion-list>
+
+
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

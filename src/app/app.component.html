@@ -1,3 +1,171 @@
-<ion-app>
-  <ion-router-outlet></ion-router-outlet>
+<ion-app [class.ion-palette-dark]="dark">
+  <ion-split-pane contentId="menu-content">
+
+    <ion-menu contentId="menu-content">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>UBBA</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list lines="none">
+          <ion-list-header>
+            Pet
+          </ion-list-header>
+          @for (page of appPages; track $index) {
+            <ion-menu-toggle auto-hide="false">
+              <ion-item 
+                [routerLink]="[page.url]"
+                [class.active-item]="selectedPath === page.url"
+                routerDirection="root"
+                detail="false"
+              >
+                <ion-icon slot="start" [name]="page.icon + '-outline'"></ion-icon>
+                <ion-label>
+                  {{page.title}}
+                </ion-label>
+              </ion-item>  
+            </ion-menu-toggle>
+          }
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item 
+              (click)="shopOnline()"
+            >
+              <ion-icon slot="start" name="basket-outline"></ion-icon>
+              <ion-label>
+                Shop Online
+              </ion-label>
+            </ion-item>  
+          </ion-menu-toggle>
+          
+        </ion-list>
+  
+        <ion-list lines="none">
+          <ion-list-header>
+            User
+          </ion-list-header>
+  
+          <!-- <ion-menu-toggle autoHide="false">
+            <ion-item 
+              [href]="appPages[3].url"
+              routerLinkActive="active"
+              routerDirection="root"
+              detail="false"
+              [class.active-item]="selectedPath === appPages[3].url"
+            >
+              <ion-icon slot="start" [name]="appPages[3].icon + '-outline'"></ion-icon>
+              <ion-label>
+                {{appPages[3].title}}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>  -->
+          
+          <ion-menu-toggle auto-hide="false">
+            <ion-item 
+              [href]="appRoutes.tabnav.entry+'/'+appRoutes.tabnav.account"
+              [class.active-item]="selectedPath === '/'+appRoutes.tabnav.entry+'/'+appRoutes.tabnav.account"
+              routerDirection="root"
+              detail="false"
+            >
+              <ion-icon slot="start" name="people-outline"></ion-icon>
+              <ion-label>
+                Account
+              </ion-label>
+            </ion-item>  
+          </ion-menu-toggle>
+
+          <ion-menu-toggle autoHide="false">
+            <ion-item routerLink="/support" routerLinkActive="active" routerDirection="root" detail="false">
+              <ion-icon slot="start" name="help"></ion-icon>
+              <ion-label>
+                Support
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+  
+          <ion-menu-toggle autoHide="false">
+            <ion-item button (click)="logout()" detail="false">
+              <ion-icon slot="start" name="log-out"></ion-icon>
+              <ion-label>
+                Logout
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+  
+        </ion-list>
+  
+        <ion-list *ngIf="!loggedIn" lines="none">
+          <ion-list-header>
+            Account
+          </ion-list-header>
+  
+          <ion-menu-toggle autoHide="false">
+            <ion-item routerLink="/login" routerLinkActive="active" routerDirection="root" detail="false">
+              <ion-icon slot="start" name="log-in"></ion-icon>
+              <ion-label>
+                Login
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+  
+          <ion-menu-toggle autoHide="false">
+            <ion-item routerLink="/support" routerLinkActive="active" routerDirection="root" detail="false">
+              <ion-icon slot="start" name="help"></ion-icon>
+              <ion-label>
+                Support
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+  
+          <ion-menu-toggle autoHide="false">
+            <ion-item routerLink="/signup" routerLinkActive="active" routerDirection="root" detail="false">
+              <ion-icon slot="start" name="person-add"></ion-icon>
+              <ion-label>
+                Signup
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+  
+          <ion-item>
+            <ion-icon slot="start" name="moon-outline"></ion-icon>
+            <ion-toggle 
+              [checked]="dark"
+              [enableOnOffLabels]="true"
+              color="dark" 
+              (ionChange)="handleDisplayMode()">
+              Dark Mode
+            </ion-toggle>
+          </ion-item>
+        </ion-list>
+  
+        <ion-list lines="none">
+          <ion-list-header>
+            Tutorial
+          </ion-list-header>
+          <ion-menu-toggle autoHide="false">
+            <ion-item button (click)="openTutorial()" detail="false">
+              <ion-icon slot="start" name="hammer"></ion-icon>
+              <ion-label>Show Tutorial</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+  
+      <!-- <ion-footer class="ion-no-border ion-padding-bottom">
+        <ion-item href="/" routerDirection="root" routerLinkActive="active-item">
+          <ion-icon class="ion-padding-end" color="primary" name="log-out-outline"></ion-icon>
+          <ion-label color="primary"> Sign Out</ion-label>  
+        </ion-item>
+      </ion-footer> -->
+
+    </ion-menu>  
+    <ion-router-outlet id="menu-content"></ion-router-outlet>
+
+  </ion-split-pane>
+
+  <!-- <ion-router-outlet id="content"></ion-router-outlet>
+  <app-side-menu></app-side-menu> -->
+
+
 </ion-app>
