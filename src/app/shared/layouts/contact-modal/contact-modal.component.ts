@@ -1,14 +1,14 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder } from '@angular/forms';
 import { ModalController } from '@ionic/angular'
 import { OverlayEventDetail } from '@ionic/core/components';
 import { SharedModule } from '../../shared.module';
 import { addIcons } from 'ionicons';
 import { close } from 'ionicons/icons';
-import { JsonPipe } from '@angular/common';
-import { ICountry, NgxCountriesDropdownModule } from 'ngx-countries-dropdown';
-import { IonicInputMaskModule } from '@thiagoprz/ionic-input-mask';
-import { MaskitoElementPredicate, MaskitoOptions,} from '@maskito/core';
+import { LoadingController } from '@ionic/angular';
+import { DialogService } from 'src/app/core/services/dialog/dialog.service';
+import { ErrorMessageComponent } from '../../components/error-message/error-message.component';
+import { NgxMaterialIntlTelInputComponent } from 'ngx-material-intl-tel-input';
 
 @Component({
   selector: 'app-contact-modal',
@@ -17,47 +17,69 @@ import { MaskitoElementPredicate, MaskitoOptions,} from '@maskito/core';
   standalone: true,
   imports: [
     SharedModule,
-    NgxCountriesDropdownModule,
-    IonicInputMaskModule,
+    // NgxIntlTelephoneInputModule,
+    // InternationalPhoneModule,
+    // NgxIntlTelInputModule,
+    NgxMaterialIntlTelInputComponent,
+    ErrorMessageComponent
+    
   ]
 })
-export class ContactModalComponent  implements OnInit {
+export class ContactModalComponent implements OnInit{
   protected formBuilder = inject(FormBuilder);
-  preferredCountryCodes = ["br", "us"]
-
-  readonly brPhoneMask: MaskitoOptions = {
-    mask: [
-      ...Array(2).fill(/\d/),
-      ' ',
-      ...Array(5).fill(/\d/),
-      ' ',
-      ...Array(4).fill(/\d/)
-    ],
-  };
-
-  readonly maskPredicate: MaskitoElementPredicate = async (el: any) => (el as HTMLIonInputElement).getInputElement();
-
+  data?: any;
   
   contactForm =  this.formBuilder.group({
-    name: [null, [Validators.required, Validators.min(4), Validators.maxLength(25)]],
-    email: [null, [Validators.required, Validators.email]],
-    phone: [null, [Validators.required, Validators.pattern("")]],
+    name: [
+            "",
+            [Validators.required, Validators.min(4), Validators.maxLength(25)]
+          ],
+    email: ["", [Validators.required, Validators.email]],
+    phone: ["", [Validators.required,]],
     mine: [false],
     social: [true],
-    instagram: [null, [Validators.required,]],
-    facebook: [null, [Validators.required]],
-    tiktok: [null, [Validators.required]]
+    instagram: [
+                  "",
+                  [
+                    Validators.required,
+                    // Validators.pattern("^(@)(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$"),
+                    Validators.maxLength(30)
+                  ]
+                ],
+    tiktok: [
+              "",
+              [
+                Validators.required,
+                // Validators.pattern("/^(@)(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/"),
+                Validators.maxLength(24)
+              ]
+            ]
   })
 
   
 
   constructor(
-    private modalControl: ModalController
+    private modalControl: ModalController,
+    private readonly dialogService: DialogService,
+    private loadingCtrl: LoadingController,
   ) {
     addIcons({close})
+    
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if(this.data != null){
+      this.contactForm.patchValue({
+        name: this.data.name,
+        email: this.data.email,
+        phone: this.data.phone,
+        mine: this.data.mine,
+        social: this.data.social,
+        tiktok: this.data.tiktok,
+        instagram: this.data.instagram        
+      })
+    }
+  }
 
   cancel() {
     this.modalControl.dismiss(null, 'cancel');
@@ -75,18 +97,44 @@ export class ContactModalComponent  implements OnInit {
     }
   }
 
-  onSubmit(){
-    console.log("submit?")
-    console.log(this.contactForm.value)
-  }
+
 
   resetForm(){
     this.contactForm.reset();
   }
 
-  onCountryChange(ev: ICountry){
-    console.log(ev)
-  } 
+  // onInputChange(ev: InputValue){
+  //   this.phoneData = ev
+  // } 
+
+  async showLoading() {
+    return this.dialogService.showLoading();
+  }
+
+  async dismissLoading(loadingElement: any){
+    this.dialogService.dismissLoading(loadingElement);
+  }
+
+  onSubmit(){
+    console.log("submit?")
+    // const loader = this.showLoading()
+    // if(this.phoneData != null && this.phoneData.isNumberValid){
+    //   console.log("Valid phone")
+    //   this.contactForm.patchValue({
+    //     "phone": this.phoneData!.phoneNumber
+    //   })
+    //   this.dismissLoading(loader)
+    // }
+    if(this.contactForm.valid){
+      // this.dismissLoading(loader)
+      console.log(this.contactForm.value);
+    }
+    // this.dismissLoading(loader)
+
+    // this.dialogService.showErrorAlert()
+    console.log(this.contactForm.value);
+    this.dialogService.dismissModal(this.contactForm.value)
+  }
 
 
 }

@@ -6,15 +6,18 @@ import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { calendar, calendarOutline, hammer, help, informationCircleOutline, logIn, map, mapOutline, moonOutline, peopleOutline, personAdd, logOutOutline, appsOutline, ellipse, home, notifications, notificationsOutline, search, settingsOutline, square, triangle, people, searchOutline, basket, basketOutline, logOut } from 'ionicons/icons';
 import { TabsPage } from './pages/tabs/tabs.page';
-import { SideMenuComponent } from './shared/layouts/side-menu/side-menu.component';
 import { tap, distinctUntilChanged, filter, map as maprx } from 'rxjs';
 import { AppRoutes } from './core/constants/constant.routes';
+import { IonicStorageModule } from '@ionic/storage-angular';
+import { StorageService } from './core/services/storage/storage.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   standalone: true,
-  imports: [IonImg, IonFooter, 
+  imports: [
+    IonImg,
+    IonFooter, 
     IonToggle,
     IonListHeader, 
     IonApp,
@@ -39,11 +42,9 @@ import { AppRoutes } from './core/constants/constant.routes';
     IonList,
     CommonModule,
     TabsPage,
-    SideMenuComponent,
-    RouterModule
-    
-    //SharedModule,
+    RouterModule,
   ],
+  providers: []
 })
 export class AppComponent implements OnInit{
   appRoutes = AppRoutes;

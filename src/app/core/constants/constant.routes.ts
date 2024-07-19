@@ -14,7 +14,7 @@ export const AppRoutes = {
         new: "new",
 
     },
-    tutor: {
+    accounts: {
         contact: "contacts"
     }
 }
@@ -33,9 +33,10 @@ export const apiEndpoints = {
         partial: `${apiBaseEndpoint}/pets/`,
         delete: `${apiBaseEndpoint}/pets/`,
         transfer: `${apiBaseEndpoint}/pets/`,
-        checkTagValidity: `${apiBaseEndpoint}/pets/tag/`,
+        checkTagStatus: `${apiBaseEndpoint}/pets/tag-status/`,
     },
     tutors: {
-        contactList: `${apiBaseEndpoint}/tutors/contacts`
+        contacts: `${apiBaseEndpoint}/tutors-contact/`,
+        // contacts: `${apiBaseEndpoint}/contacts/`,
     }
 }

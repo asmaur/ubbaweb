@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-menu-button slot="start"></ion-menu-button>
+    <ion-title>
+      Account
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="8" offset-md="2">
+        <ion-list [inset]="true">
+          <ion-list-header>
+            <ion-label>Account Info</ion-label>
+          </ion-list-header>
+          <ion-item [button]="true" routerLink="/accounts/contacts">
+            <ion-icon color="danger" slot="start" name="people-outline" size="large"></ion-icon>
+            <ion-label>Contacts</ion-label>
+            <!-- <ion-note slot="end">6</ion-note> -->
+          </ion-item>
+
+          <ion-item [button]="true">
+            <ion-icon color="tertiary" slot="start" name="list-circle" size="large"></ion-icon>
+            <ion-label>Shopping</ion-label>
+            <ion-note slot="end">15</ion-note>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

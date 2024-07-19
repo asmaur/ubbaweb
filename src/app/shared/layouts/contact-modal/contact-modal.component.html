@@ -46,38 +46,72 @@
             ></ion-input>
           </ion-item>
   
-          <ion-item>
+          <ion-item style="margin-bottom: 1rem; display: flex; align-items: center;">
             <ion-input
               label="Enter your email"
               labelPlacement="stacked"
               type="email"
               placeholder="Your email"
               formControlName="email"
+              pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
             ></ion-input>
-          </ion-item>
+          </ion-item>   
+          <app-error-message
+              *ngIf="contactForm.controls.email.touched && contactForm.controls.email.errors?.['required']"
+              message="Email is mandatory."
+            ></app-error-message>       
+            <app-error-message
+              *ngIf="contactForm.controls.email.touched && contactForm.controls.email.invalid"
+              message="Enter a valid email."
+            ></app-error-message>
 
-          <div style="padding: 0rem; margin: 1rem;">
-            <ion-label>Select your country</ion-label>
-            <lib-country-list 
-              selectedCountryCode="br"
-              [preferredCountryCodes]="preferredCountryCodes"
-              (onCountryChange)="onCountryChange($event)"
-            ></lib-country-list>
-          </div>
-        
-          <ion-item>            
-            <ion-input
-              label="Phone number"
-              labelPlacement="stacked"
-              type="tel"
-              placeholder="(DDD) 9999-9999"
+          <div style="padding-left: 16px;">
+            <!-- <ion-label>Select your country</ion-label> -->
+            <!-- <intl-telephone-input
+              [preferredCountries]="[CountryISO.Brazil, CountryISO.UnitedStates]"
+              [enablePlaceholder]="true"
+              [searchCountryFlag]="true"
+              [separateDialCode]="true"
+              [enableAutoCountrySelect]="true"
+              [searchCountryField]="SearchCountryField.All"
+              [phoneValidation]="true"
+              [numberFormat]="PhoneNumberFormat.International"
+              [inputId]="'phoneFormControl'"
+              (onChange)="onInputChange($event)"
+              phoneNumber="1122334455"
+            >
+            </intl-telephone-input> -->
+            <!-- <ngx-intl-tel-input
+              [cssClass]="'custom'"
+              [preferredCountries]="preferredCountries"
+              [enableAutoCountrySelect]="true"
+              [enablePlaceholder]="true"
+              [searchCountryFlag]="true"
+              [searchCountryField]="[
+                SearchCountryField.Iso2,
+                SearchCountryField.Name
+              ]"
+              [selectFirstCountry]="false"
+              [selectedCountryISO]="CountryISO.India"
+              [maxLength]="15"
+              [phoneValidation]="true"
+              [separateDialCode]="separateDialCode"
+              [numberFormat]="PhoneNumberFormat.National"
+              name="phone"
               formControlName="phone"
-              [maskito]="brPhoneMask"
-              [maskitoElement]="maskPredicate"
-            ></ion-input> 
-            
-          </ion-item>
-  
+      >
+            </ngx-intl-tel-input> -->
+            <!-- <int-phone-prefix defaultCountry="br" formControlName="phone"></int-phone-prefix> -->
+            <ngx-material-intl-tel-input 
+              fieldControlName="phone" 
+              [required]="true" 
+              [autoIpLookup]="true"
+              [enableSearch]="false"
+              
+            > </ngx-material-intl-tel-input>
+          </div>
+          
+
           <ion-item>
             <ion-toggle              
               formControlName="social"
@@ -88,50 +122,44 @@
             <ion-input
               label="Enter your instagram username"
               labelPlacement="stacked"
-              type="url"
-              placeholder="Your instagram username"
+              type="text"
+              pattern="^(@)(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$"
+              placeholder="@username"
+              maxlength="30"
               formControlName="instagram"            
             ></ion-input>
           </ion-item>
   
           <!-- <ion-item>
             <ion-input
-              label="Enter your name"
-              labelPlacement="stacked"
-              type="text"
-              placeholder="Your name"            
-            ></ion-input>
-          </ion-item> -->
-  
-          <ion-item>
-            <ion-input
               label="Enter your facebook username"
               labelPlacement="stacked"
-              type="text"
+              type="file"
               placeholder="Your facebook username"
               formControlName="facebook"            
             ></ion-input>
-          </ion-item>
+          </ion-item> -->
   
           <ion-item>
             <ion-input
               label="Enter your tiktok username"
               labelPlacement="stacked"
               type="text"
-              placeholder="Your tiktok username"
-              formControlName="tiktok"            
+              pattern="^(@)(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$"
+              placeholder="@username"
+              maxlength="24"
+              formControlName="tiktok" 
+              required       
             ></ion-input>
-          </ion-item> 
-
-          
+          </ion-item>          
           
         </form>
-
       </ion-col>
-
+<ion-col size="12">
   <footer class="ion-text-center">
-    <ion-button (click)="resetForm()">Reset</ion-button>
+    <ion-button (click)="resetForm()" color="warning">Reset</ion-button>
   </footer>
+  </ion-col>
 
   </ion-row>
   </ion-grid>

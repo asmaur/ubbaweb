@@ -27,7 +27,7 @@ export const routes: Routes = [
       {
         path: AppRoutes.tabnav.account,
         loadComponent: () =>
-          import('../account/account.page').then((m) => m.AccountPage),
+          import('../../accounts/account/account.page').then((m) => m.AccountPage),
         pathMatch: "full"
       },
       {

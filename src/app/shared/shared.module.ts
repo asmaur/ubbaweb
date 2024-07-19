@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonMenu, IonMenuButton, IonButtons, IonButton, IonIcon, IonList, IonMenuToggle, IonItem, IonLabel, IonSplitPane, IonAvatar, IonChip, IonRouterLink, IonSearchbar, IonTabBar, IonTabButton, IonBadge, IonRow, IonGrid, IonCard, IonCardContent, IonCardHeader, IonCol, IonInfiniteScroll, IonInfiniteScrollContent, IonBackButton, IonBackdrop, IonCardSubtitle, IonCardTitle, IonToggle, IonAccordionGroup, IonAccordion, IonListHeader, IonTextarea, IonFab, IonFabButton, IonRange, IonSelect, IonSelectOption, IonTabs, IonFooter, IonImg, IonSegment, IonSegmentButton, IonInput, IonModal} from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonMenu, IonMenuButton, IonButtons, IonButton, IonIcon, IonList, IonMenuToggle, IonItem, IonLabel, IonSplitPane, IonAvatar, IonChip, IonRouterLink, IonSearchbar, IonTabBar, IonTabButton, IonBadge, IonRow, IonGrid, IonCard, IonCardContent, IonCardHeader, IonCol, IonInfiniteScroll, IonInfiniteScrollContent, IonBackButton, IonBackdrop, IonCardSubtitle, IonCardTitle, IonToggle, IonAccordionGroup, IonAccordion, IonListHeader, IonTextarea, IonFab, IonFabButton, IonRange, IonSelect, IonSelectOption, IonTabs, IonFooter, IonImg, IonSegment, IonSegmentButton, IonInput, IonModal, IonNote} from '@ionic/angular/standalone';
 import { TruncatePipe } from '../core/pipes/truncate.pipe';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { AgePipe } from '../core/pipes/age.pipe';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaskitoModule } from '@maskito/angular';
 
 
 
@@ -67,7 +68,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ZXingScannerModule,
     ReactiveFormsModule,
     ReactiveFormsModule,
-    IonicModule
+    IonicModule,
+    
     // ExploreContainerComponent,
     // PetListComponent,
     // PetCardComponent,

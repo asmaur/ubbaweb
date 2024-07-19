@@ -38,7 +38,9 @@ export class DialogService {
   ): Promise<HTMLIonAlertElement> {
     const defaultOpts: AlertOptions = {
       header: 'Error',
+      message: "A message should be a short, complete sentence.",
       buttons: ['OK'],
+      
     };
     opts = { ...defaultOpts, ...opts };
     return this.showAlert(opts);
@@ -69,4 +71,14 @@ export class DialogService {
     await loading.present();
     return loading;
   }
+
+  async dismissLoading(loadingElement: any){
+    loadingElement.then((load: any) => {
+      load.dismiss()
+    })
+    // return await this.loadingCtrl.dismiss({
+    //   'dismissed': true
+    // })
+  }
+
 }

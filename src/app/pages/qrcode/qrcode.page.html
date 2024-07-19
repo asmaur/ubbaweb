@@ -6,7 +6,10 @@
     ></ion-back-button>
     <ion-title>Pet QrCode</ion-title>
     @if (showScan) {
-      <ion-button slot="end" (click)="startScan()" >Scan</ion-button>
+      <!-- <ion-button slot="end" (click)="startScan()" >Scan</ion-button> -->
+      <ion-button size="medium" (click)="startScan()" slot="end" fill="">
+        <ion-icon slot="icon-only" name="scan-circle-outline"></ion-icon>
+      </ion-button>
     }
   </ion-toolbar>
 </ion-header>
@@ -36,17 +39,17 @@
         <ion-card-title>Code</ion-card-title>
       </ion-card-header>
       <ion-card-content class="ion-text-center">
-        <div #canvas></div>
+        <div #canvas id="qr-code-canva"></div>
         <ion-textarea [value]="qrcodeScanResult" readonly ion-auto-grow>
         </ion-textarea>
 
-        <div>
+        <!-- <div>
           <ion-button>Register</ion-button>
           <ion-button>View Profile</ion-button>
           <ion-button
             routerLink="/pets/new-pet/"
           >Protect Your Pet.</ion-button>
-        </div>
+        </div> -->
 
       </ion-card-content>
     </ion-card>

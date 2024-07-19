@@ -1,4 +1,4 @@
-import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonTextarea, IonInput } from '@ionic/angular/standalone';
@@ -7,13 +7,15 @@ import { Barcode, BarcodeFormat, LensFacing } from '@capacitor-mlkit/barcode-sca
 import { BarcodeScanningModalComponent } from './barcode-scanning-modal.component';
 import { DialogService } from 'src/app/core/services/dialog/dialog.service';
 import { addIcons } from 'ionicons';
-import { close } from 'ionicons/icons';
+import { close, scanCircleOutline } from 'ionicons/icons';
 import { Platform } from "@ionic/angular"
 import { AlertController } from '@ionic/angular';
 import { BarcodeScanDesktopModalComponent } from './barcode-scan-desktop-modal.component';
 import QRCodeStyling from 'qr-code-styling';
 import { Router } from '@angular/router';
 import { AppRoutes } from 'src/app/core/constants/constant.routes';
+import { PetService } from 'src/app/core/services/pet/pet.service';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-qrcode',
@@ -33,6 +35,7 @@ export class QrcodePage implements OnInit {
   public isPermissionGranted = false;
   public readonly barcodeFormat = BarcodeFormat;
   public readonly lensFacing = LensFacing;
+  private tag: string = "";
 
   @ViewChild("canvas", { static: true }) canvas!: ElementRef;
   showScan: boolean = true;
@@ -42,9 +45,12 @@ export class QrcodePage implements OnInit {
     private readonly ngZone: NgZone,
     private platform: Platform,
     private alertController: AlertController,
-    private router: Router
+    private router: Router,
+    private renderer2: Renderer2,
+    private elementRef: ElementRef,
+    private petService: PetService
   ) { 
-    addIcons({close})
+    addIcons({close,scanCircleOutline})
   }
 
   ngOnInit() {
@@ -69,7 +75,8 @@ export class QrcodePage implements OnInit {
       if (barcode) {
         this.qrcodeScanResult = barcode.rawValue;
         //barcodes = [barcode];
-        this.generateQrCodePreview(barcode.rawValue)
+        // this.generateQrCodePreview(barcode.rawValue)
+        this.checkTagStatus()
       }
     });
   }
@@ -94,20 +101,27 @@ export class QrcodePage implements OnInit {
         // this.webBarcodes = barcode;
         this.qrcodeScanResult = barcode;
         // console.log("ON DISMISS: " + this.webBarcodes)
-        this.generateQrCodePreview(barcode)
+        // this.generateQrCodePreview(barcode)
         // this.showScan = true;
+        this.checkTagStatus()
       }
     });
   }
 
   startScan(){
     //this.showScan = false;
+    // this.renderer2.removeChild(
+    //   this.elementRef.nativeElement, 
+    //   this.canvas.nativeElement.remove()
+    // );
+
     console.log("Platform is desktop: " + this.platform.is("desktop"));
     if(this.platform.is("desktop")){
       this.startScanWeb()
       //this.showScan = true;
     }
-    else{ this.startScanMobile()
+    else{ 
+      this.startScanMobile()
     }
   }
 
@@ -137,7 +151,7 @@ export class QrcodePage implements OnInit {
   qrCode.append(this.canvas.nativeElement);
   
   //qrCode.download({ name: "qr", extension: "svg" });
-  this.showScan = false;
+  // this.showScan = false;
 
   this.presentAlert()
 
@@ -159,15 +173,112 @@ export class QrcodePage implements OnInit {
         {
           text: 'Cancel',
           handler: () => {
-            console.log("Okay")
-            //this.router.navigate(["/app"])
-            this.alertController.dismiss()
+            this.cancelAlert();
           }
         },
       ],
     });
 
     await alert.present();
+  }
+
+  cancelAlert(){
+    this.alertController.dismiss();
+    // this.renderer2.removeChild(
+    //   this.elementRef.nativeElement, 
+    //   this.canvas.nativeElement.remove()
+    // );
+    // this.renderer2.createElement(
+    //   this.elementRef.nativeElement,
+    //   this.canvas.nativeElement
+    // )
+    // const qrcodeElementCanva = this.canvas.nativeElement.querySelectorAll("#qr-code-canva");
+    // this.renderer2.removeChild(
+    //     this.elementRef.nativeElement, 
+    //     this.canvas.first.nativeElement
+    //   );
+  }
+
+  checkTagStatus(){
+    const loader = this.dialogService.showLoading()
+    const url = new URL(this.qrcodeScanResult);
+    this.tag = url.pathname.split("/")[2];
+    console.log(this.tag);
+    this.petService.getTagStatus({"uuid": this.tag}).subscribe({
+      next: (response) => {
+        if(response.registered){
+          this.dialogService.showAlert({
+            header: "Pet found!",
+            message: "Ubba!, A pet with this tag was found.",
+            buttons: [
+              {
+                text: "Cancel",
+                role: "cancel"
+              },
+              {
+                text: "View profile",
+                handler: () => {
+                  this.viewPetProfile(response.uuid)
+                }
+              }
+            ]
+          });
+        }else{
+          this.dialogService.showAlert({
+            header: "Tag found!",
+            message: "Ubba!, Let register a new pet.",
+            buttons: [
+              {
+                text: "Cancel",
+                role: "cancel"
+              },
+              {
+                text: "Register",
+                handler: () => {
+                  this.registerNewPet(response.uuid)
+                }
+              }
+            ]
+          });
+        }
+      },
+      error: (error) => {
+        if(error.status == HttpStatusCode.NotFound){
+          this.dialogService.showErrorAlert({
+            message: "No Tag or pet found.",
+            buttons: [
+              {
+                text: "Okay",
+                role: "cancel"
+              }
+            ]
+          })
+        }else if(error.status == HttpStatusCode.BadRequest){
+          this.dialogService.showErrorAlert({
+            message: "Something went wrong.",
+            buttons: [
+              {
+                text: "Okay",
+                role: "cancel"
+              }
+            ]
+          })
+        }
+      },
+      complete: () => {
+        this.dialogService.dismissLoading(loader);
+      }
+    });
+
+    // this.dialogService.dismissLoading(loader);
+  }
+
+  viewPetProfile(tag: string){
+    this.router.navigate(["pets/", tag]);
+  }
+
+  registerNewPet(tag: string){
+    console.log(tag);
   }
 
 }

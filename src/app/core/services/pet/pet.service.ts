@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Pet } from '../../models/pet.model';
 import { apiEndpoints } from '../../constants/constant.routes';
 import { PetResponse } from '../../models/response.model';
+import { Tag } from '../../models/tag.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,10 @@ export class PetService {
 
   getPetDetail(tag: string): Observable<Pet>{
     return this.httpClient.get<Pet>(`${apiEndpoints.pets.userPetList}/${tag}`)
+  }
+
+  getTagStatus(data: any): Observable<Tag>{
+    return this.httpClient.post<Tag>(`${apiEndpoints.pets.checkTagStatus}`, data);
   }
 
 }

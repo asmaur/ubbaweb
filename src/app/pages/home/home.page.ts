@@ -1,9 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
-import { ExploreContainerComponent } from '../../shared/layouts/explore-container/explore-container.component';
 import { addIcons } from 'ionicons';
 import { addCircleOutline, addOutline, logoTwitter, personCircle, qrCode, qrCodeOutline, qrCodeSharp } from 'ionicons/icons';
-import { PetListComponent } from 'src/app/shared/ui/pet-list/pet-list.component';
+import { PetListComponent } from 'src/app/shared/layouts/pet-list/pet-list.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { Router } from '@angular/router';
 import { Pet } from 'src/app/core/models/pet.model';
@@ -22,120 +21,7 @@ import { PetService } from 'src/app/core/services/pet/pet.service';
 export class HomePage implements OnInit{
   hasNextPage: boolean = true;
   nextPageNumber: string = "1";
-  petList: Pet[] = [
-    {
-      id: "hfgfgh",
-      petname: {
-        id: 1,
-        pname: "shshshs",
-      },
-      tag: {
-        id: "jshshsh",
-        uuid: "sfhlsfjçsjflhshfls",
-      },
-      name: "pappi",
-      race: "RSA",
-      birth_date: "2015/10/10",
-      castration: true,
-      registered: true,
-      alive: true,
-      lost: true,
-      genre: "female",
-      observation: "alguma observação",
-      image: "assets/images/lebron-james.jpg",
-      joined_date: "2022/10/10",
-      tutor: {
-        id: "sdhdshjd",
-        name: "askhjshfjhs shfsd", 
-        image: "assets/images/lebron-james.jpg",
-        contacts: []     
-      }
-    },
-    {
-      id: "hfgfgh",
-      petname: {
-        id: 1,
-        pname: "shshshs",
-      },
-      tag: {
-        id: "jshshsh",
-        uuid: "sfhlsfjçsjflhshfls",
-      },
-      name: "pappi",
-      race: "RSA",
-      birth_date: "2015/10/10",
-      castration: true,
-      registered: true,
-      alive: true,
-      lost: false,
-      genre: "Male",
-      observation: "alguma observação",
-      image: "assets/images/lebron-james.jpg",
-      joined_date: "2022/10/10",
-      tutor: {
-        id: "sdhdshjd",
-        name: "askhjshfjhs shfsd", 
-        image: "assets/images/lebron-james.jpg",
-        contacts: []     
-      }
-    },
-    {
-      id: "hfgfgh",
-      petname: {
-        id: 1,
-        pname: "shshshs",
-      },
-      tag: {
-        id: "jshshsh",
-        uuid: "sfhlsfjçsjflhshfls",
-      },
-      name: "pappi",
-      race: "RSA",
-      birth_date: "2015/10/10",
-      castration: true,
-      registered: true,
-      alive: true,
-      lost: false,
-      genre: "Male",
-      observation: "alguma observação",
-      image: "assets/images/lebron-james.jpg",
-      joined_date: "2022/10/10",
-      tutor: {
-        id: "sdhdshjd",
-        name: "askhjshfjhs shfsd", 
-        image: "assets/images/lebron-james.jpg",
-        contacts: []     
-      }
-    },
-    {
-      id: "hfgfgh",
-      petname: {
-        id: 1,
-        pname: "shshshs",
-      },
-      tag: {
-        id: "jshshsh",
-        uuid: "sfhlsfjçsjflhshfls",
-      },
-      name: "pappi",
-      race: "RSA",
-      birth_date: "2015/10/10",
-      castration: true,
-      registered: true,
-      alive: true,
-      lost: false,
-      genre: "Male",
-      observation: "alguma observação",
-      image: "assets/images/lebron-james.jpg",
-      joined_date: "2022/10/10",
-      tutor: {
-        id: "sdhdshjd",
-        name: "askhjshfjhs shfsd", 
-        image: "assets/images/lebron-james.jpg",
-        contacts: []     
-      }
-    },
-  ];
+  
   currentUserPetList: Pet[] = []
 
   constructor(

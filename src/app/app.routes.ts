@@ -6,11 +6,11 @@ export const routes: Routes = [
   },
   {
     path: 'pets',
-    loadChildren: () => import('./pages/pets/pets.routes').then( m => m.routes)
+    loadChildren: () => import('./pets/pets-routing.module').then( m => m.PetRoutingModule)
   },
   {
     path: 'accounts',
-    loadChildren: () => import('./pages/account/accounts.routes').then( m => m.routes)
+    loadChildren: () => import('./accounts/account-routing.module').then( m => m.AccountRoutingModule)
   },
   {
     path: 'tutor-vet',
