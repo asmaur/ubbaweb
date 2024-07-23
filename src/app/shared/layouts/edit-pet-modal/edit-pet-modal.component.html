@@ -1,0 +1,141 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button (click)="cancel()">
+          <ion-icon name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>Contact</ion-title>
+      <ion-buttons slot="end">
+        <ion-button type="submit" form="pet-form" [strong]="true">
+          <ion-label>Save</ion-label>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="8" offset-md="2">
+
+        <form 
+          [formGroup]="petForm!"
+          id="pet-form"
+          (ngSubmit)="onSubmit()"
+          novalidate
+        >
+
+        <ion-list lines="none">
+            <ion-input 
+              class="ion-margin-top ion-margin-bottom" 
+              label="Tag id" 
+              label-placement="floating" 
+              fill="outline" 
+              placeholder="Enter text"
+              formControlName="tag"
+              readonly=""
+            ></ion-input>
+
+              <ion-input 
+                class="ion-margin-top ion-margin-bottom" 
+                label="Name" 
+                label-placement="floating" 
+                fill="outline" 
+                [counter]="true" 
+                maxlength="20" 
+                placeholder="Enter text"
+                errorText="name is required"
+                formControlName="name"
+              ></ion-input>                
+                      
+
+              <ion-input 
+                class="ion-margin-top ion-margin-bottom" 
+                label="Nickname" 
+                label-placement="floating" 
+                [counter]="true" 
+                maxlength="20" 
+                fill="outline" 
+                placeholder="Enter text"
+                formControlName="nickname"
+              ></ion-input>
+
+            <ion-item class="ion-margin-top ion-margin-bottom">
+              <ion-toggle formControlName="castration" [enableOnOffLabels]="true">Castrado:</ion-toggle>
+            </ion-item>            
+
+          <ion-select 
+            class="ion-margin-top ion-margin-bottom" 
+            label="Tipo" 
+            label-placement="floating"  
+            fill="outline"
+            formControlName="pet_type"
+          >
+            <ion-select-option value="Dog">Cachorro</ion-select-option>
+            <ion-select-option value="Cat">Gato</ion-select-option>
+            <ion-select-option value="Bird">Ave</ion-select-option>
+            <ion-select-option value="Reptile">Reptile</ion-select-option>
+            <ion-select-option value="Other">Outro</ion-select-option>
+          </ion-select>
+          
+          <ion-input 
+            class="ion-margin-top ion-margin-bottom" 
+            label="Race" 
+            label-placement="floating" 
+            fill="outline" 
+            [counter]="true" 
+            maxlength="20" 
+            placeholder="Enter text"
+            formControlName="race"
+          ></ion-input>
+
+          <ion-select 
+            class="ion-margin-top ion-margin-bottom" 
+            label="Genre" 
+            label-placement="floating"  
+            fill="outline"
+            formControlName="genre"
+          >
+            <ion-select-option value="Male">Male</ion-select-option>
+            <ion-select-option value="Female">Female</ion-select-option>
+            <ion-select-option value="Other">Outro</ion-select-option>
+          </ion-select>
+
+          <ion-item class="ion-margin-top ion-margin-bottom">
+            <label>Birth date:</label>
+            <ion-datetime-button 
+              datetime="datetime" 
+              slot="end"
+              
+            ></ion-datetime-button>
+            <ion-modal [keepContentsMounted]="true">
+              <ng-template>
+                <ion-datetime id="datetime" presentation="date" formControlName="birth_date"></ion-datetime>
+                </ng-template>
+            </ion-modal>
+          </ion-item>
+          
+            <ion-textarea 
+              label="Observation" 
+              fill="outline" 
+              [autoGrow]="true" 
+              labelPlacement="floating" 
+              placeholder="Enter text" 
+              [counter]="true" 
+              maxlength="200"
+              formControlName="observation"
+            ></ion-textarea>
+
+        </ion-list>
+
+
+        </form>
+        </ion-col>
+        </ion-row>
+        </ion-grid>
+
+</ion-content>

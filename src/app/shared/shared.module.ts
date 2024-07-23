@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonMenu, IonMenuButton, IonButtons, IonButton, IonIcon, IonList, IonMenuToggle, IonItem, IonLabel, IonSplitPane, IonAvatar, IonChip, IonRouterLink, IonSearchbar, IonTabBar, IonTabButton, IonBadge, IonRow, IonGrid, IonCard, IonCardContent, IonCardHeader, IonCol, IonInfiniteScroll, IonInfiniteScrollContent, IonBackButton, IonBackdrop, IonCardSubtitle, IonCardTitle, IonToggle, IonAccordionGroup, IonAccordion, IonListHeader, IonTextarea, IonFab, IonFabButton, IonRange, IonSelect, IonSelectOption, IonTabs, IonFooter, IonImg, IonSegment, IonSegmentButton, IonInput, IonModal, IonNote} from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonMenu, IonMenuButton, IonButtons, IonButton, IonIcon, IonList, IonMenuToggle, IonItem, IonLabel, IonSplitPane, IonAvatar, IonChip, IonRouterLink, IonSearchbar, IonTabBar, IonTabButton, IonBadge, IonRow, IonGrid, IonCard, IonCardContent, IonCardHeader, IonCol, IonInfiniteScroll, IonInfiniteScrollContent, IonBackButton, IonBackdrop, IonCardSubtitle, IonCardTitle, IonToggle, IonAccordionGroup, IonAccordion, IonListHeader, IonTextarea, IonFab, IonFabButton, IonRange, IonSelect, IonSelectOption, IonTabs, IonFooter, IonImg, IonSegment, IonSegmentButton, IonInput, IonModal, IonNote, IonDatetime, IonDatetimeButton, IonText, IonFabList} from '@ionic/angular/standalone';
 import { TruncatePipe } from '../core/pipes/truncate.pipe';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { AgePipe } from '../core/pipes/age.pipe';
@@ -63,7 +63,12 @@ import { MaskitoModule } from '@maskito/angular';
     IonSegment,
     IonInput,
     IonModal,
+    IonFooter, IonImg,
     IonSegmentButton,
+    IonDatetime,
+    IonDatetimeButton,
+    IonText,
+    IonFabList,
     FormsModule,
     ZXingScannerModule,
     ReactiveFormsModule,
@@ -123,7 +128,12 @@ import { MaskitoModule } from '@maskito/angular';
     IonSegment,
     IonInput,
     IonModal,
+    IonFooter, IonImg,
     IonSegmentButton,
+    IonDatetime,
+    IonDatetimeButton,
+    IonText,
+    IonFabList,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,

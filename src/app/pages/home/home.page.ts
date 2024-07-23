@@ -50,7 +50,7 @@ export class HomePage implements OnInit{
   }
 
   loadPetList(){    
-      this.petService.getAllUserPet(this.nextPageNumber).subscribe({
+      this.petService.list(this.nextPageNumber).subscribe({
         next: (res) => {
           console.log(res.results)
           //this.currentUserPetList = [...res["results"]]

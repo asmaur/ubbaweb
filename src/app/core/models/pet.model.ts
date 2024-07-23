@@ -9,6 +9,7 @@ export interface Pet{
     petname?: Petname
     name: string
     nickname?: string
+    pet_type?: string
     race?: string
     birth_date?: string
     castration: boolean
@@ -17,6 +18,7 @@ export interface Pet{
     lost: boolean
     genre?: string
     observation?: string
+    medical_condition: string
     image?: string
     tutor?: Tutor
     veterinarian?: Vet

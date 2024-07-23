@@ -49,7 +49,7 @@ export class ContactModalComponent implements OnInit{
     tiktok: [
               "",
               [
-                Validators.required,
+                
                 // Validators.pattern("/^(@)(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/"),
                 Validators.maxLength(24)
               ]

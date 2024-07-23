@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { addIcons } from 'ionicons';
-import { createOutline } from 'ionicons/icons';
+import { add, chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPalette, createOutline, ellipsisVerticalOutline, globe, document } from 'ionicons/icons';
 import { TutorCardComponent } from 'src/app/shared/components/tutor-card/tutor-card.component';
 import { PetDetailCardComponent } from 'src/app/shared/components/pet-detail-card/pet-detail-card.component';
 import { VetCardComponent } from 'src/app/shared/components/vet-card/vet-card.component';
@@ -16,6 +16,9 @@ import { Contact } from 'src/app/core/models/contact.model';
 import { Vet } from 'src/app/core/models/vet.model';
 import { PetService } from 'src/app/core/services/pet/pet.service';
 import { IonSegmentButton } from "@ionic/angular/standalone";
+import { DialogService } from 'src/app/core/services/dialog/dialog.service';
+import { EditPetModalComponent } from 'src/app/shared/layouts/edit-pet-modal/edit-pet-modal.component';
+import { UploadModalComponent } from 'src/app/shared/components/upload-modal/upload-modal.component';
 
 @Component({
   selector: 'app-pet-profile',
@@ -27,7 +30,9 @@ import { IonSegmentButton } from "@ionic/angular/standalone";
     TutorCardComponent,
     PetDetailCardComponent,
     VetCardComponent,
-    OtherContactComponent
+    OtherContactComponent,
+    EditPetModalComponent,
+    UploadModalComponent
   ]
 })
 export class PetProfilePage{
@@ -141,14 +146,19 @@ export class PetProfilePage{
   tutorContacts: Contact[] = [];
   otherContacts: Contact[] = [];
 
+  @ViewChild('fileButton', { static: false }) fileButton!: ElementRef;
+  fileName: string = '';
+
+
   constructor(
     private petService: PetService,
     private route: ActivatedRoute,
     public actionSheetCtrl: ActionSheetController,
+    private dialogService: DialogService
     //public confData: ConferenceData,
     //public inAppBrowser: InAppBrowser,
   ) {
-    addIcons({createOutline})
+    addIcons({createOutline, ellipsisVerticalOutline, add, chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPalette, document, globe})
   }
 
   // ngOnInit(): void {
@@ -160,7 +170,7 @@ export class PetProfilePage{
   ionViewWillEnter(){
     const tagId = this.route.snapshot.paramMap.get("id")
     console.log(tagId)
-    this.petService.getPetDetail(tagId!).subscribe({
+    this.petService.retrieve(tagId!).subscribe({
       next: (res) => {
         console.log(res);
         this.pet = res;
@@ -250,6 +260,85 @@ export class PetProfilePage{
     });
 
     await actionSheet.present();
+  }
+
+  async openEditPetModal(){
+    const contactModal = await this.dialogService.showModal({
+      component: EditPetModalComponent,
+      componentProps: {
+        data: this.pet
+      },
+      showBackdrop: true,
+      backdropDismiss: false,
+    
+    })
+    contactModal.onDidDismiss().then((result) => {
+      console.log(result.data);
+      if(result.data == null){
+        return;
+      }
+      this.updatePet(result.data);
+    })
+  }
+
+  updatePet(data: any){
+    const loader = this.dialogService.showLoading();
+    this.petService.update(data, this.pet.id!).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.pet = response;
+      },
+      error: (error) => {
+        console.log(error)
+      },
+      complete: () => {
+        this.dialogService.dismissLoading(loader);
+      }
+    });
+  }
+
+  openEditModal(event: any){
+    this.openEditPetModal();
+  }
+
+  openImagePopover(event: any){
+    this.openImagePetModal();
+  }
+
+  openLostPopover(event: any){}
+
+  openDeceadedPopover(event: any){}
+
+  openTransferModal(event: any){}
+
+  async openImagePetModal(){
+    this.dialogService.showModal({
+      component: UploadModalComponent,
+      componentProps: {data: this.pet}
+    })
+  }
+
+  async openLostPetModal(){}
+
+  async openDeceadedPetModal(){}
+
+  async openTransferPetModal(){}
+
+  uploadFile() {
+    this.fileButton.nativeElement.click();
+  }
+
+  fileChanged(event: any) {
+    // this.fileButton.nativeElement.click();
+
+    const files = event.target.files;
+    console.log(files);
+    const reader = new FileReader();
+    // reader.onload = () => {
+    //   this.imageURL = reader.result;
+    // };
+    reader.readAsDataURL(event.target.files[0]);
+    this.fileName = event.target.files[0].name;
   }
 
 }

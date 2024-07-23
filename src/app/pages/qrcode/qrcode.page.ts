@@ -278,7 +278,7 @@ export class QrcodePage implements OnInit {
   }
 
   registerNewPet(tag: string){
-    console.log(tag);
+    this.router.navigate(["pets/new"], {queryParams: {"tag": tag}});
   }
 
 }

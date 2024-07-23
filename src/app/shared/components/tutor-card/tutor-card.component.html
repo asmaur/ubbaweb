@@ -5,7 +5,7 @@
         <img src="/assets/images/lebron-james.jpg" alt="speaker.name + ' profile picture'">
       </ion-avatar>
       <ion-label>
-        <h3>Tutor: <strong>{{tutor.name}}</strong></h3>
+        <ion-label>Tutor: <strong>{{tutor.name}}</strong></ion-label>
       </ion-label>
     </ion-item>
   </ion-card-header>
@@ -14,7 +14,6 @@
     @for(contact of contacts; track $index) {
       <app-contact-card [contact]="contact"></app-contact-card>
     }
-
   </ion-card-content> 
   
 </ion-card>

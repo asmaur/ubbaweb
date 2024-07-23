@@ -15,16 +15,24 @@ export class PetService {
     private httpClient: HttpClient
   ) { }
 
-  getAllUserPet(page: string): Observable<PetResponse>{
+  list(page: string): Observable<PetResponse>{
     return this.httpClient.get<PetResponse>(`${apiEndpoints.pets.userPetList}/?page=${page}`)
   }
 
-  getPetDetail(tag: string): Observable<Pet>{
+  retrieve(tag: string): Observable<Pet>{
     return this.httpClient.get<Pet>(`${apiEndpoints.pets.userPetList}/${tag}`)
   }
 
   getTagStatus(data: any): Observable<Tag>{
     return this.httpClient.post<Tag>(`${apiEndpoints.pets.checkTagStatus}`, data);
+  }
+
+  create(data: any): Observable<Pet>{
+    return this.httpClient.post<any>(`${apiEndpoints.pets.create}`, data);
+  }
+
+  update(data: any, id: string): Observable<Pet>{
+    return this.httpClient.put<Pet>(`${apiEndpoints.pets.create}${id}/`, data);
   }
 
 }

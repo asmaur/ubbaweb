@@ -1,5 +1,22 @@
+<ion-col size="12" size-md="8" offset-md="2" class="ion-align-items-center">
+
+  <ion-card color="warning" class="ion-padding">
+    <ion-card-title style="position: relative; margin:auto !important;">Ame - Cuide - Proteje</ion-card-title>
+    <!-- <ion-card-content>
+      <ion-text>
+        More actions: <br>
+      </ion-text>
+      <ion-button color="dark" class="ion-align-items-center">More Actions</ion-button>      
+    </ion-card-content> -->
+  </ion-card>
+</ion-col>
+
+
 <ion-card>
-  <img alt="Silhouette of mountains" src="/assets/images/lebron-james.jpg" />
+  <img 
+    alt="pet profile image" 
+    [src]="pet.image !== null ? pet.image : 'assets/avatar/taxi-pet-care.png'" />
+    
   <ion-card-header>
     <ion-card-title>
       <small>Nome: </small>
@@ -13,20 +30,16 @@
   <ion-card-content>
 
     <!-- Dados do pet -->
-
     <ion-list>
-      <!-- <ion-item>
-        <p>Here's a small text description for the card content. Nothing more, nothing less.</p>
-      </ion-item> -->
       <ion-item>
-        <h4>Idade:</h4>
+        <ion-label>Idade:</ion-label>
         <ion-badge slot="end">{{pet.birth_date! | age}}</ion-badge>
       </ion-item>
       <ion-item>
         <ion-toggle [checked]="pet.castration" [disabled]="true">Castrado:</ion-toggle><br />
       </ion-item>
       <ion-item>
-        <h4>Genre:</h4>
+        <ion-label>Genre:</ion-label>
         <ion-badge slot="end">{{pet.genre | uppercase }}</ion-badge>
       </ion-item>
     </ion-list>
@@ -46,7 +59,47 @@
     </ion-accordion-group>
   </ion-card-content>
 
-  <ion-button fill="clear">Editar</ion-button>
-  <!-- <ion-button fill="clear">Action 2</ion-button> -->
+  <!-- <ion-button fill="clear" (click)="openModalEvent()">Editar</ion-button> -->
+  <ion-fab  vertical="top" horizontal="start">
+      <ion-fab-button size="small">
+        <ion-icon name="chevron-forward-circle"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-list side="end">
+        <ion-fab-button 
+          aria-label="edit pet profile"
+          size="small"
+          (click)="openModalEvent()"
+        >
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button 
+          aria-label="update pet image"
+          (click)="openImagePopoverEvent()"
+        >
+          <ion-icon name="image-outline"></ion-icon>
+        </ion-fab-button>
+
+        <ion-fab-button 
+          aria-label="lost/find pet"
+          (click)="openLostPopoverEvent()"
+        >
+          <ion-icon name="locate-outline"></ion-icon>
+        </ion-fab-button>
+
+        <ion-fab-button 
+          aria-label="transfer pet to new tutor"
+          (click)="openTransferModalEvent()"
+        >
+          <ion-icon name="swap-horizontal-outline"></ion-icon>
+        </ion-fab-button>
+
+        <ion-fab-button 
+          aria-label="declare pet deceaded"
+          (click)="openDeceadedPopoverEvent()"
+        >
+          <ion-icon name="flag-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+  </ion-fab>
 
 </ion-card>

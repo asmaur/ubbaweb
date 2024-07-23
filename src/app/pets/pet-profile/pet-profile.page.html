@@ -35,7 +35,14 @@
         <ion-col size="12" size-md="6" offset-md="3">
           @switch (seletedTab) {
             @case ("pet") {
-              <app-pet-detail-card [pet]="pet"></app-pet-detail-card>
+              <app-pet-detail-card 
+                [pet]="pet" 
+                (openModalEventEmitter)="openEditModal($event)"
+                (openImagePopoverEventEmitter)="openImagePopover($event)"
+                (openLostPopoverEventEmitter)="openLostPopover($event)"
+                (openDeceadedPopoverEventEmitter)="openDeceadedPopover($event)"
+                (openTransferModalEventEmitter)="openTransferModal($event)"
+              ></app-pet-detail-card>
               <app-tutor-card [tutor]="pet.tutor!" [contacts]="tutorContacts"></app-tutor-card>
             }
             @case ("medical") {
@@ -46,11 +53,11 @@
               <ion-accordion-group expand="inset">
                 <ion-accordion value="first">
                   <ion-item slot="header" color="warning">
-                    <ion-label>Nota:</ion-label>
+                    <ion-label>Obs Medical:</ion-label>
                   </ion-item>
                   <div class="ion-padding" slot="content">
                     <p>
-                      {{pet.observation}}
+                      {{pet.medical_condition}}
                     </p>
                   </div>
                 </ion-accordion>    
@@ -79,5 +86,13 @@
       }
     </ion-row>
   </ion-grid>
+
+  <!-- <ion-fab slot="fixed" vertical="top" horizontal="start">
+    <ion-fab-button>
+      <ion-icon name="chevron-forward-circle"></ion-icon>
+    </ion-fab-button>
+</ion-fab> -->
+
+<!-- <input type="file" (change)="fileChanged($event)" accept="image/*" class="filebtn" #fileButton  /> -->
 
 </ion-content>

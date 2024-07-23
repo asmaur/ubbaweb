@@ -2,7 +2,9 @@
     <ion-card-header>
       <ion-item detail="false" lines="none" class="pet-item" [routerLink]="'/pets/' + pet.tag.uuid">
         <ion-avatar slot="start">
-          <img [src]="pet.image" alt="pet.name + ' profile picture'">
+          <img 
+            [src]="pet.image !== null ? pet.image : 'assets/avatar/taxi-pet-care.png'" 
+            alt="pet.name + ' profile picture'">
         </ion-avatar>
         <ion-label>
           <h2 > {{pet.name | truncate}}</h2>
