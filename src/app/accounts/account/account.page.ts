@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { IonNote } from "@ionic/angular/standalone";
 import { addIcons } from 'ionicons';
-import { listCircle, peopleOutline, personAddOutline } from 'ionicons/icons';
+import { cameraOutline, listCircle, peopleOutline, personAddOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-account',
@@ -15,6 +15,6 @@ import { listCircle, peopleOutline, personAddOutline } from 'ionicons/icons';
 })
 export class AccountPage {
   constructor() {
-    addIcons({listCircle, peopleOutline})
+    addIcons({listCircle, peopleOutline, cameraOutline})
   }
 }

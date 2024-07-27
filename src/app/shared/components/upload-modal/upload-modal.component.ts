@@ -56,8 +56,13 @@ export class UploadModalComponent  implements OnInit {
   }
 
   uploadPetImage(){
-    const formData = new FormData();
-    formData.append("pet-image", this.file!, this.file?.name);
+    if(this.file != null){
+      // const loader = this.dialogService.showLoading({message: "Uploading..."})
+      // const formData = new FormData();
+      // formData.append("pet-image", this.file!, this.file?.name);
+      this.dialogService.dismissModal(this.file);
+    }
+
   }
 
 

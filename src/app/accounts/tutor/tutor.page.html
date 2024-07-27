@@ -1,10 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>tutor</ion-title>
+    <ion-title>Tutor Info</ion-title>
     <ion-back-button 
       slot="start" 
-      [defaultHref]="appRoutes.tabnav.entry+'/'+appRoutes.tabnav.home"
+      [defaultHref]="appRoutes.tabnav.entry+'/'+appRoutes.tabnav.account"
     ></ion-back-button>
+    <ion-avatar slot="end" class="ion-margin-end">
+      <ion-img [src]="tutor?.image"></ion-img>
+    </ion-avatar>
   </ion-toolbar>
 </ion-header>
 
@@ -17,20 +20,46 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col>
-        <ion-button>
-          Add
-        </ion-button>
+      <!-- <ion-col>
+        <ion-avatar class="profile-pic-container">
+          <ion-img src="assets/avatar/avatar-male.png"></ion-img>
+          <ion-icon id="camera-icon" name="camera-outline"></ion-icon>
+        </ion-avatar>
+      </ion-col> -->
+
+      <ion-col size="12" size-md="6" offset-md="3" class="ion-text-center ion-padding-top"> 
+      <div>       
+          <ion-avatar style="margin: auto;" class="profile-pic-container">
+            <ion-img 
+              alt="Silhouette of a person's head" 
+              [src]="tutorImage === null ? tutor?.image : tutorImage" ></ion-img>
+          </ion-avatar>
+          <!-- <ion-icon id="camera-icon" name="camera"></ion-icon> -->
+          <ion-button size="small" id="camera-icon" fill="clear" (click)="uploadFile()">
+            <ion-icon slot="icon-only" name="camera" color="dark"></ion-icon>
+          </ion-button>
+
+          <input 
+          type="file" 
+          (change)="onChange($event)" 
+          #fileUpload 
+          accept=".png,.jpg"
+          hidden/>
+
+
+        </div>
+        <ion-label>Tutor name: <strong>{{tutor?.name}}</strong> </ion-label> <br>
+        <ion-label>Tutor email: <strong>{{tutor?.email}}</strong> </ion-label>
+        <br> <br>
+        
+        @if(file?.size !== null){
+          <ion-button color="dark" (click)="uploadTutorImage()">
+            <ion-icon slot="start" name="cloud-upload-outline"></ion-icon>
+            Upload
+          </ion-button>
+        }
+
       </ion-col>
-
-
-      <ion-list>
-        <ion-list-header>
-
-        </ion-list-header>
-        <ion-item></ion-item>
-      </ion-list>
-
 
     </ion-row>
   </ion-grid>

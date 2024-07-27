@@ -1,4 +1,4 @@
-  <ion-card class="pet-card" [class]="pet.lost ? 'pet-card-warning' : 'pet-card-success'">
+  <ion-card class="pet-card" [class]="pet.alive ? (pet.lost ? 'pet-card-lost' : 'pet-card-alive') : 'pet-card-danger'">
     <ion-card-header>
       <ion-item detail="false" lines="none" class="pet-item" [routerLink]="'/pets/' + pet.tag.uuid">
         <ion-avatar slot="start">

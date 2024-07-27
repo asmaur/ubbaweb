@@ -10,7 +10,12 @@ const routes: Routes = [
               path: 'contacts',
               loadComponent: () => import('./tutor-contact/tutor-contact.page').then( m => m.TutorContactPage),
               pathMatch: "full"
-          }
+          },
+          {
+            path: 'tutors',
+            loadComponent: () => import('./tutor/tutor.page').then( m => m.TutorPage),
+            pathMatch: "full"
+        }
       ]
   }
 ];

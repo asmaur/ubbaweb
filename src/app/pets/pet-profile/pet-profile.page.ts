@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { addIcons } from 'ionicons';
@@ -15,17 +15,19 @@ import { OtherContactComponent } from 'src/app/shared/components/other-contact/o
 import { Contact } from 'src/app/core/models/contact.model';
 import { Vet } from 'src/app/core/models/vet.model';
 import { PetService } from 'src/app/core/services/pet/pet.service';
-import { IonSegmentButton } from "@ionic/angular/standalone";
+import { IonSegmentButton, IonItemDivider } from "@ionic/angular/standalone";
 import { DialogService } from 'src/app/core/services/dialog/dialog.service';
 import { EditPetModalComponent } from 'src/app/shared/layouts/edit-pet-modal/edit-pet-modal.component';
 import { UploadModalComponent } from 'src/app/shared/components/upload-modal/upload-modal.component';
+import { TransferModalComponent } from 'src/app/shared/components/transfer-modal/transfer-modal.component';
+import { Tutor } from 'src/app/core/models/tutor.model';
 
 @Component({
   selector: 'app-pet-profile',
   templateUrl: './pet-profile.page.html',
   styleUrls: ['./pet-profile.page.scss'],
   standalone: true,
-  imports: [  
+  imports: [IonItemDivider,   
     SharedModule,
     TutorCardComponent,
     PetDetailCardComponent,
@@ -38,8 +40,12 @@ import { UploadModalComponent } from 'src/app/shared/components/upload-modal/upl
 export class PetProfilePage{
   appRoutes = AppRoutes;
   pet!: Pet;
+  file: File | null = null;
   isLost: boolean = false;
+  isAlive: boolean = true;
   seletedTab: string = "pet";
+  currentTutor: Tutor | null = null;
+  newTutor: Tutor | null = null;
   // {
   //   id: "hfgfgh",
   //   petname: {
@@ -154,7 +160,8 @@ export class PetProfilePage{
     private petService: PetService,
     private route: ActivatedRoute,
     public actionSheetCtrl: ActionSheetController,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private router: Router
     //public confData: ConferenceData,
     //public inAppBrowser: InAppBrowser,
   ) {
@@ -175,6 +182,7 @@ export class PetProfilePage{
         console.log(res);
         this.pet = res;
         this.isLost = res.lost;
+        this.isAlive = res.alive;
         //this.getOtherContacts();
         //this.getTutorContacts();
         this.tutorContacts = res.tutor!.contacts;
@@ -298,47 +306,220 @@ export class PetProfilePage{
   }
 
   openEditModal(event: any){
+    if(!this.isAlive || this.isLost){
+      this.dialogService.showErrorAlert({message: "You can't edit lost or dead pet info."});
+      return;
+    }
     this.openEditPetModal();
   }
 
-  openImagePopover(event: any){
+  openImageModal(event: any){
+    if(!this.isAlive || this.isLost){
+      this.dialogService.showErrorAlert({message: "You can't edit lost or dead pet info."});
+      return;
+    }
     this.openImagePetModal();
   }
 
-  openLostPopover(event: any){}
+  openLostAlert(event: any){
+    if(!this.isAlive){
+      this.dialogService.showErrorAlert({message: "You can't edit a dead pet info."});
+      return;
+    }
+    if(this.pet?.lost){
+      this.dialogService.showAlert({
+        header: "Ubba ❤️.",
+        // subHeader: "We sorry for your lost.",
+        message: "Is your pet back home?",
+        buttons: [
+          {
+            text: "Cancel",
+            role: "cancel"
+          },
+          {
+            text: "Yes",
+            role: "confirm",
+            handler: () => {
+              this.updatePetLostStatus();
+            }
+          }
+        ]
+      })
+    }else{
+      this.dialogService.showAlert({
+        header: "Ubba 🥹, we really sorry.",
+        // subHeader: "We sorry for your lost.",
+        message: "Want to declare your pet lost?",
+        buttons: [
+          {
+            text: "Cancel",
+            role: "cancel"
+          },
+          {
+            text: "Declare",
+            role: "confirm",
+            handler: () => {
+              this.updatePetLostStatus();
+            }
+          }
+        ]
+      })
+    }
+  }
 
-  openDeceadedPopover(event: any){}
-
-  openTransferModal(event: any){}
-
-  async openImagePetModal(){
-    this.dialogService.showModal({
-      component: UploadModalComponent,
-      componentProps: {data: this.pet}
+  openDeceadedAlert(event: any){
+    if(!this.isAlive){
+      this.dialogService.showErrorAlert({message: "You can't edit a dead pet info."});
+      return;
+    }
+    this.dialogService.showAlert({
+      header: "Ubba 🥹, we really sorry.",
+      // subHeader: "We sorry for your lost.",
+      message: "Want to declare your pet dead?",
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel"
+        },
+        {
+          text: "Declare",
+          role: "confirm",
+          handler: () => {
+            this.updatePetAliveStatus();
+          }
+        }
+      ]
     })
   }
 
-  async openLostPetModal(){}
+  async openTransferModal(event: any){
+    if(!this.isAlive || this.isLost){
+      this.dialogService.showErrorAlert({message: "You can't edit lost or dead pet info."});
+      return;
+    }
+    const transferModal = await this.dialogService.showModal({
+      component: TransferModalComponent,
+      componentProps: {data: this.pet}
+    });
+
+    transferModal.onDidDismiss().then((result) => {
+      console.log(result);
+      this.petTransfer(result.data);
+    })
+
+  }
+
+  async openImagePetModal(){
+    const imageModal = await this.dialogService.showModal({
+      component: UploadModalComponent,
+      componentProps: {data: this.pet}
+    })
+
+    imageModal.onDidDismiss().then((result) => {
+      if(result.data == null){
+        this.dialogService.showErrorAlert({message: "Unable to load file."});
+      }
+      this.file = result.data;
+      this.uploadFile();
+    });
+
+  }
+
+  // async openLostPetModal(){}
 
   async openDeceadedPetModal(){}
 
   async openTransferPetModal(){}
 
   uploadFile() {
-    this.fileButton.nativeElement.click();
+    const loader = this.dialogService.showLoading({message: "Uploading file..."})
+    const formData = new FormData();
+    formData.append("pet-image", this.file!, this.file?.name)
+    this.petService.uploadPetImage(formData, this.pet.id!).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.pet.image = response.image;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        this.dialogService.dismissLoading(loader);
+      }
+    })
   }
 
-  fileChanged(event: any) {
-    // this.fileButton.nativeElement.click();
+  async updatePetLostStatus(){
+    const loader = this.dialogService.showLoading({message: "Updating status..."})
 
-    const files = event.target.files;
-    console.log(files);
-    const reader = new FileReader();
-    // reader.onload = () => {
-    //   this.imageURL = reader.result;
-    // };
-    reader.readAsDataURL(event.target.files[0]);
-    this.fileName = event.target.files[0].name;
+    this.petService.updatePetLostStatus(
+      {"lost": !this.pet.lost},
+      this.pet.id!
+    ).subscribe({
+      next: (response) => {
+        this.isLost = response.lost;
+        this.pet.lost = response.lost;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        this.dialogService.dismissLoading(loader);
+      }
+    })
+
+  }
+
+  async updatePetAliveStatus(){
+    const loader = this.dialogService.showLoading({message: "Updating status..."});
+
+    this.petService.updatePetAliveStatus(
+      {"alive": !this.pet.alive},
+      this.pet.id!
+    ).subscribe({
+      next: (response) => {
+        this.isAlive = response.alive;
+        this.pet.alive = response.alive;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        this.dialogService.dismissLoading(loader);
+      }
+    })
+
+  }
+
+  petTransfer(data: any){
+    const loader = this.dialogService.showLoading({message: "Tranfering..."})
+    if(data === null){
+      this.dialogService.dismissLoading(loader);
+      return;
+    }
+
+    this.petService.transferPetToNewTutor(data).subscribe({
+      next: (response) => {
+        this.dialogService.dismissLoading(loader);
+        this.dialogService.showAlert({
+          message: "Transfer successfull",
+          buttons: [
+            {
+              text: "Okay",
+              handler: () => {
+                this.router.navigate(['/']);
+              }
+            }
+          ]
+        })
+      },
+      error: (error) => {
+        console.log(error);
+        this.dialogService.dismissLoading(loader);
+        this.dialogService.showErrorAlert({message: "Something went wrong!"})
+      }
+    })
+
   }
 
 }

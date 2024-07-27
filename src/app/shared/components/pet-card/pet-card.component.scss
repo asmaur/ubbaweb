@@ -4,11 +4,16 @@
     display: flex;
     flex-direction: column;
 }
-.pet-card-warning{
+
+.pet-card-lost{
+    border-left: 2px solid var(--ion-color-warning);
+}
+
+.pet-card-danger{
     border-left: 2px solid var(--ion-color-danger);
 }
 
-.pet-card-success{
+.pet-card-alive{
     border-left: 2px solid var(--ion-color-primary);
 }
 /* Due to the fact the cards are inside of columns the margins don't overlap

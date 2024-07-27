@@ -32,11 +32,17 @@ export const apiEndpoints = {
         update: `${apiBaseEndpoint}/pets/`,
         partial: `${apiBaseEndpoint}/pets/`,
         delete: `${apiBaseEndpoint}/pets/`,
-        transfer: `${apiBaseEndpoint}/pets/`,
+        // transfer: `${apiBaseEndpoint}/pets/`,
         checkTagStatus: `${apiBaseEndpoint}/pets/tag-status/`,
+        petImage: `${apiBaseEndpoint}/pets/upload-image/`,
+        petLostStatus: `${apiBaseEndpoint}/pets/pet-lost/`,
+        petAliveStatus: `${apiBaseEndpoint}/pets/pet-alive/`,
+        transfer: `${apiBaseEndpoint}/pets/transfer/`,
     },
     tutors: {
         contacts: `${apiBaseEndpoint}/tutors-contact/`,
-        // contacts: `${apiBaseEndpoint}/contacts/`,
+        newTutor: `${apiBaseEndpoint}/tutors/find-tutor/`,
+        getTutor: `${apiBaseEndpoint}/tutors/`,
+        tutorImage: `${apiBaseEndpoint}/tutors/tutor-image/`,
     }
 }

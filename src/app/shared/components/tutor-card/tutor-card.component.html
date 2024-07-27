@@ -2,7 +2,7 @@
   <ion-card-header>
     <ion-item detail="false">
       <ion-avatar slot="start" style="margin-left: -10px;">
-        <img src="/assets/images/lebron-james.jpg" alt="speaker.name + ' profile picture'">
+        <img [src]="tutor.image === null ? 'assets/avatar/avatar-male.png' : tutor.image">
       </ion-avatar>
       <ion-label>
         <ion-label>Tutor: <strong>{{tutor.name}}</strong></ion-label>

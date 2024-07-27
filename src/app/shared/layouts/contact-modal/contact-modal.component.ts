@@ -36,23 +36,18 @@ export class ContactModalComponent implements OnInit{
           ],
     email: ["", [Validators.required, Validators.email]],
     phone: ["", [Validators.required,]],
-    mine: [false],
+    mine: [true],
     social: [true],
     instagram: [
                   "",
                   [
                     Validators.required,
-                    // Validators.pattern("^(@)(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$"),
                     Validators.maxLength(30)
                   ]
                 ],
     tiktok: [
               "",
-              [
-                
-                // Validators.pattern("/^(@)(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/"),
-                Validators.maxLength(24)
-              ]
+              [Validators.maxLength(24)]
             ]
   })
 

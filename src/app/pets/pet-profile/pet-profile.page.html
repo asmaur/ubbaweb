@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar [color]="isLost ? 'danger' : 'none'">
+  <ion-toolbar [color]="isAlive ? (isLost ? 'warning' : 'secondary') : 'danger'">
     <ion-buttons slot="start">
       <!-- <ion-menu-button></ion-menu-button> -->
       <ion-back-button [defaultHref]="appRoutes.tabnav.entry+'/'+appRoutes.tabnav.home"></ion-back-button>
@@ -38,12 +38,12 @@
               <app-pet-detail-card 
                 [pet]="pet" 
                 (openModalEventEmitter)="openEditModal($event)"
-                (openImagePopoverEventEmitter)="openImagePopover($event)"
-                (openLostPopoverEventEmitter)="openLostPopover($event)"
-                (openDeceadedPopoverEventEmitter)="openDeceadedPopover($event)"
+                (openImagePopoverEventEmitter)="openImageModal($event)"
+                (openLostPopoverEventEmitter)="openLostAlert($event)"
+                (openDeceadedPopoverEventEmitter)="openDeceadedAlert($event)"
                 (openTransferModalEventEmitter)="openTransferModal($event)"
               ></app-pet-detail-card>
-              <app-tutor-card [tutor]="pet.tutor!" [contacts]="tutorContacts"></app-tutor-card>
+              <!-- <app-tutor-card [tutor]="pet.tutor!" [contacts]="tutorContacts"></app-tutor-card> -->
             }
             @case ("medical") {
               @if(pet.veterinarian) {
@@ -65,7 +65,10 @@
 
             }
             @case ("info") {
-              @if(otherContacts.length > 0){
+              <app-tutor-card [tutor]="pet.tutor!" [contacts]="tutorContacts"></app-tutor-card>
+                <ion-item-divider></ion-item-divider>
+
+              @if(otherContacts.length > 0){                
                 <app-other-contact [contacts]="otherContacts"></app-other-contact>
               }
               
